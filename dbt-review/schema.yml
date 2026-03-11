@@ -1,0 +1,24 @@
+version: 2
+
+sources:
+  - name: raw
+    database: retail-analytics
+    schema: raw_data
+    tables:
+      - name: retail_transactions
+
+models:
+  - name: stg_retail_transactions
+    description: "Staging model for retail transactions"
+    columns:
+      - name: transaction_id
+        tests:
+          - unique
+          - not_null
+      - name: channel_normalized
+        tests:
+          - accepted_values:
+              values: ['online', 'offline', 'marketplace']
+
+  - name: mart_channel_performance
+    description: "Daily channel performance"
